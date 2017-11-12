@@ -6,7 +6,10 @@
 //  Copyright © 2017 Onlaraton. All rights reserved.
 //
 
+#include <map>
 #include "FBullCowGame.hpp"
+
+#define TMap std::map
 
 using FText = std::string;
 using int32 = int;
@@ -34,11 +37,15 @@ bool FBullCowGame::IsGameWon() const { return bGameIsWon; }
 
 EGuessStatus FBullCowGame::CheckGuessValidity(FText Guess) const
 {
-    if (false) { // if it is not isogram
+    if (!IsIsogram(Guess)) { // if it is not isogram
         return EGuessStatus::Not_Isogram;
-    } else if (false) { // if it is not lower_case
+    }
+    
+    if (!IsLowerCase(Guess)) { // if it is not lower_case
         return EGuessStatus::Not_Lowercase;
-    } else if (Guess.length() != GetHiddenWordLength()) { // if the guess length is wrong
+    }
+    
+    if (Guess.length() != GetHiddenWordLength()) { // if the guess length is wrong
         return EGuessStatus::Wrong_Length;
     }
     
@@ -79,5 +86,37 @@ FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
     
     return BullCowCount;
 }
+
+bool FBullCowGame::IsIsogram(FString Word) const
+{
+    // treat 0 and 1 letter words as isograms
+    if (Word.length() <= 1) {
+        return true;
+    }
+    
+    TMap<char, bool> LetterSeen;
+    for (auto Letter : Word) {
+        Letter = tolower(Letter);
+        if (LetterSeen[Letter]) {
+            return false;
+        } else {
+            LetterSeen[Letter] = true;
+        }
+    }
+    return true; // for example in cases where /0 is entered
+}
+
+bool FBullCowGame::IsLowerCase(FString Word) const
+{
+    for (auto Letter : Word) {
+        if (!islower(Letter)) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+
 
 

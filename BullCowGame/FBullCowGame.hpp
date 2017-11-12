@@ -50,6 +50,9 @@ private:
     int32 MyMaxTries = 5;
     FString MyHiddenWord;
     bool bGameIsWon;
+    
+    bool IsIsogram(FString) const;
+    bool IsLowerCase(FString) const;
 };
 
 #endif /* FBullCowGame_hpp */
