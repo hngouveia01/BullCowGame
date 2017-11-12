@@ -11,19 +11,45 @@
 
 #include <string>
 
+using FString = std::string;
+using int32 = int;
+
+struct FBullCowCount
+{
+    int32 Bulls = 0;
+    int32 Cows = 0;
+};
+
+enum class EGuessStatus
+{
+    OK,
+    Not_Isogram,
+    Wrong_Length,
+    Not_Lowercase,
+    Invalid_Status
+};
+
 class FBullCowGame
 {
 public:
-    void Reset();
-    int GetMaxTries();
-    int GetCurrentTry();
+    FBullCowGame();
+    
+    int32 GetMaxTries() const;
+    int32 GetCurrentTry() const;
+    bool IsGameWon() const;
+    size_t GetHiddenWordLength() const;
+    
+    EGuessStatus CheckGuessValidity(FString) const; // TODO make a more rich return value
+    // counts bulls and cows and increases try # assuming valid guess
+    FBullCowCount SubmitValidGuess(FString Guess);
     void IncreaseTry();
-    bool IsGameWon();
-    bool CheckGuessValidity(std::string);
+    void Reset();
 
 private:
-    int MyCurrentTry = 1;
-    int MyMaxTries = 5;
+    int32 MyCurrentTry = 1;
+    int32 MyMaxTries = 5;
+    FString MyHiddenWord;
+    bool bGameIsWon;
 };
 
 #endif /* FBullCowGame_hpp */
