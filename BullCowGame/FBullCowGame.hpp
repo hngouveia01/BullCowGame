@@ -1,11 +1,3 @@
-//
-//  FBullCowGame.hpp
-//  BullCowGame
-//
-//  Created by Henrique Nascimento Gouveia on 10/11/17.
-//  Copyright © 2017 Onlaraton. All rights reserved.
-//
-
 #ifndef FBullCowGame_hpp
 #define FBullCowGame_hpp
 
@@ -39,7 +31,7 @@ public:
     bool IsGameWon() const;
     size_t GetHiddenWordLength() const;
     
-    EGuessStatus CheckGuessValidity(FString) const; // TODO make a more rich return value
+    EGuessStatus CheckGuessValidity(FString) const;
     // counts bulls and cows and increases try # assuming valid guess
     FBullCowCount SubmitValidGuess(FString Guess);
     void IncreaseTry();

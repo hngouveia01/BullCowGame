@@ -1,12 +1,5 @@
-//
-//  FBullCowGame.cpp
-//  BullCowGame
-//
-//  Created by Henrique Nascimento Gouveia on 10/11/17.
-//  Copyright © 2017 Onlaraton. All rights reserved.
-//
-
 #include <map>
+#include <string>
 #include "FBullCowGame.hpp"
 
 #define TMap std::map
@@ -14,9 +7,11 @@
 using FText = std::string;
 using int32 = int;
 
+FBullCowGame::FBullCowGame() { Reset(); }
+
 void FBullCowGame::Reset()
 {
-    constexpr int32 MAX_TRIES = 8;
+    constexpr int32 MAX_TRIES = 3;
     MyCurrentTry = 1;
     MyMaxTries = MAX_TRIES;
     const FString HIDDEN_WORD = "planet";
@@ -24,7 +19,12 @@ void FBullCowGame::Reset()
     bGameIsWon = false;
 }
 
-int32 FBullCowGame::GetMaxTries() const { return MyMaxTries; }
+int32 FBullCowGame::GetMaxTries() const
+{
+    TMap<int32, int32> WordLengthToMaxTries {{3, 4}, {4, 7}, {5, 10}, {6, 16}, {7, 20}};
+    return WordLengthToMaxTries[MyHiddenWord.length()];
+    
+}
 
 int32 FBullCowGame::GetCurrentTry() const { return MyCurrentTry; }
 
@@ -49,15 +49,10 @@ EGuessStatus FBullCowGame::CheckGuessValidity(FText Guess) const
         return EGuessStatus::Wrong_Length;
     }
     
-    return EGuessStatus::OK; // TODO make actual error
+    return EGuessStatus::OK;
 }
 
 size_t FBullCowGame:: GetHiddenWordLength() const { return MyHiddenWord.length(); }
-
-FBullCowGame::FBullCowGame()
-{
-    Reset();
-}
 
 // receives a VALID guess, increments turn and returns count
 FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
@@ -103,7 +98,7 @@ bool FBullCowGame::IsIsogram(FString Word) const
             LetterSeen[Letter] = true;
         }
     }
-    return true; // for example in cases where /0 is entered
+    return true;
 }
 
 bool FBullCowGame::IsLowerCase(FString Word) const
